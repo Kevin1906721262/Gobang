@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GobangMain extends JFrame {
+public class GobangMain extends JFrame implements GobangConfig{
     public static void main(String[] args) {
         GobangMain gobang = new GobangMain();
         gobang.init(); //初始化窗体
@@ -30,18 +30,17 @@ public class GobangMain extends JFrame {
     //Graphics 这是一个画笔类，可以通过 Graphics g = frame.getGraphics();来获取窗体的画笔，画笔有绘制各种图形的方法
     public void paint(Graphics g) {
         super.paint(g);
-        int row= 15, col= 15;
-        //棋盘左上角坐标
-        int x = 30, y = 60;
-        int size= 35;
-        // 画15条横线
-        for (int i = 0; i < row; i++) {
+        /*
+			ROW 棋盘的行数
+			常量本可以直接定义在这个类中，但是考虑到这些常量在其它类中也需要使用，多个类中都需要使用同样的常量
+			就考虑使用接口，之后如果修改棋盘的行数、或者棋子的大小，直接在接口中修改一次就可以了
+		*/
+        for (int i = 0; i < ROW; i++) {
             // 绘制直线，参数分别是直线的起点(x，y)和终点的(x，y)
-            g.drawLine(x, y + i * size, x + (row- 1) * size, y + i * size);
+            g.drawLine(X, Y + i * SIZE, X + (ROW - 1) * SIZE, Y + i * SIZE); // 画横线
         }
-        // 画15条竖线
-        for (int j = 0; j < col; j++) {
-            g.drawLine(x + j * size, y + (row- 1) * size, x + j * size, y);
+        for (int j = 0; j < COL; j++) {
+            g.drawLine(X + j * SIZE, Y + (ROW - 1) * SIZE, X + j * SIZE, Y); // 画竖线
         }
     }
 }
