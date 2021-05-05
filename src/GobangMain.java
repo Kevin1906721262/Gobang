@@ -2,29 +2,56 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GobangMain extends JFrame implements GobangConfig{
+    private JRadioButton[] radioButtons;
+    private GobangListener gl;
     public static void main(String[] args) {
         GobangMain gobang = new GobangMain();
         gobang.init(); //初始化窗体
     }
 
     public void init() {
-        // 继承了JFrame，this表示本类的对象
+        // 继承了JFrame,this表示本类的对象
         this.setTitle("五子棋"); // 五子棋窗体属性，this表示JFrame的实例对象
-        this.setSize(650, 650);
+        this.setSize(650, 600);
         this.setDefaultCloseOperation(3); //可以通过点击窗体右上角的“X”来关闭窗体
         this.setResizable(false); //设置大小不可更改
         this.setLocationRelativeTo(null);//设置窗体位置默认在屏幕中央(注意要先设置好大小，再使用这条语句才生效)
+        initEastPanel();
         this.setVisible(true);//设置窗体可见
-
-        //需要在窗体可见之后再获取画笔
-        Graphics g = this.getGraphics();
-        GobangListener gl = new GobangListener();
-        gl.setGraphics(g); //传递画笔,在GobangListener中需要用画笔进行绘制
+        gl = new GobangListener();
         gl.setFrame(this);
         //给窗体绑定鼠标监听处理事件，不绑定则点击无效
         this.addMouseListener(gl);
     }
 
+    public void initEastPanel() {
+        JPanel east_panel = new JPanel();
+        east_panel.setPreferredSize(new Dimension(170, 0));
+        east_panel.setBackground(Color.gray);
+        east_panel.setLayout(new FlowLayout()); // 给右边面板设置流式布局,panel的默认布局为流式布局
+        String Array[] = { "开始新游戏", "悔棋", "认输" }; // 将按钮的名字存在数组里面
+        for (int i = 0; i < Array.length; i++) {
+            JButton button = new JButton(Array[i]);
+            button.setPreferredSize(new Dimension(150, 100));
+            east_panel.add(button); // 添加按钮到面板上
+            button.addActionListener(gl);// 给按钮添加监听
+        }
+
+        ButtonGroup bg = new ButtonGroup(); // Group按钮组件声明
+        ButtonGroup bg2 = new ButtonGroup(); // Group按钮组件声明
+        radioButtons = new JRadioButton[] { new JRadioButton("人人对战"),
+                new JRadioButton("人机对战"), new JRadioButton("白棋先手"),
+                new JRadioButton("黑棋先手") };
+        for (int i = 0; i < radioButtons.length; i++) {
+            radioButtons[i].setPreferredSize(new Dimension(100, 30));
+            east_panel.add(radioButtons[i]);
+            if (i < 2)
+                bg.add(radioButtons[i]);// ButtonGroup连接单选按钮
+            else
+                bg2.add(radioButtons[i]);// ButtonGroup连接单选按钮
+        }
+        this.add(east_panel, BorderLayout.EAST);
+    }
 
     @Override
     //Graphics 这是一个画笔类，可以通过 Graphics g = frame.getGraphics();来获取窗体的画笔，画笔有绘制各种图形的方法

@@ -1,21 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class GobangListener implements MouseListener,GobangConfig{
-    Graphics g ;
-    int flag = 1;
-    JFrame frame;
-
-    //接收画笔
-    public void setGraphics(Graphics g){
-        this.g = g;
-    }
+public class GobangListener implements MouseListener,GobangConfig, ActionListener {
+    public Graphics g ;
+    public int flag = 1;
+    public JFrame frame;
 
     public void setFrame(JFrame frame){
         this.frame = frame;
+        this.g = frame.getGraphics();
     }
 
     //根据鼠标点击位置交替画黑白棋
@@ -111,6 +105,11 @@ public class GobangListener implements MouseListener,GobangConfig{
     }
 
     @Override
+    public void actionPerformed(ActionEvent e) {
+        
+    }
+
+    @Override
     public void mousePressed(MouseEvent e) {
 
     }
@@ -129,4 +128,5 @@ public class GobangListener implements MouseListener,GobangConfig{
     public void mouseExited(MouseEvent e) {
 
     }
+
 }
