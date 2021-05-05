@@ -18,8 +18,9 @@ public class GobangMain extends JFrame implements GobangConfig{
         this.setLocationRelativeTo(null);//设置窗体位置默认在屏幕中央(注意要先设置好大小，再使用这条语句才生效)
         initEastPanel();
         this.setVisible(true);//设置窗体可见
-        gl = new GobangListener();
+
         gl.setFrame(this);
+////        gl.setRB(radioButtons);
         //给窗体绑定鼠标监听处理事件，不绑定则点击无效
         this.addMouseListener(gl);
     }
@@ -30,6 +31,19 @@ public class GobangMain extends JFrame implements GobangConfig{
         east_panel.setBackground(Color.gray);
         east_panel.setLayout(new FlowLayout()); // 给右边面板设置流式布局,panel的默认布局为流式布局
         String Array[] = { "开始新游戏", "悔棋", "认输" }; // 将按钮的名字存在数组里面
+        ButtonGroup bg = new ButtonGroup(); // Group按钮组件声明
+        ButtonGroup bg2 = new ButtonGroup(); // Group按钮组件声明
+        radioButtons = new JRadioButton[] { new JRadioButton("人人对战"),
+                new JRadioButton("人机对战"), new JRadioButton("黑棋先手"),
+                new JRadioButton("白棋先手") };
+        for (int i = 0; i < radioButtons.length; i++) {
+            radioButtons[i].setPreferredSize(new Dimension(100, 30));
+            if (i < 2)
+                bg.add(radioButtons[i]);// ButtonGroup连接单选按钮
+            else
+                bg2.add(radioButtons[i]);// ButtonGroup连接单选按钮
+        }
+        gl = new GobangListener(radioButtons);
         for (int i = 0; i < Array.length; i++) {
             JButton button = new JButton(Array[i]);
             button.setPreferredSize(new Dimension(150, 100));
@@ -37,20 +51,11 @@ public class GobangMain extends JFrame implements GobangConfig{
             button.addActionListener(gl);// 给按钮添加监听
         }
 
-        ButtonGroup bg = new ButtonGroup(); // Group按钮组件声明
-        ButtonGroup bg2 = new ButtonGroup(); // Group按钮组件声明
-        radioButtons = new JRadioButton[] { new JRadioButton("人人对战"),
-                new JRadioButton("人机对战"), new JRadioButton("白棋先手"),
-                new JRadioButton("黑棋先手") };
         for (int i = 0; i < radioButtons.length; i++) {
-            radioButtons[i].setPreferredSize(new Dimension(100, 30));
             east_panel.add(radioButtons[i]);
-            if (i < 2)
-                bg.add(radioButtons[i]);// ButtonGroup连接单选按钮
-            else
-                bg2.add(radioButtons[i]);// ButtonGroup连接单选按钮
         }
         this.add(east_panel, BorderLayout.EAST);
+
     }
 
     @Override
