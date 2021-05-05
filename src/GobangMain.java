@@ -42,5 +42,27 @@ public class GobangMain extends JFrame implements GobangConfig{
         for (int j = 0; j < COL; j++) {
             g.drawLine(X + j * SIZE, Y + (ROW - 1) * SIZE, X + j * SIZE, Y); // 画竖线
         }
+        drawChess(g);
+    }
+
+    // 重绘棋子
+    public void drawChess(Graphics g) {
+        for (int a = 0; a < chessArray.length; a++)
+            for (int c = 0; c < chessArray.length; c++)
+                if (chessArray[a][c] != 0) // 用二维数组对应棋子位置，无子为0，黑子为1，白子为-1
+                    if (chessArray[a][c] == 1) {
+                        g.setColor(Color.black); //设置画笔为黑色
+						/*
+						fillOval方法四个参数：分别是椭圆的x、y坐标和两个半轴的长度
+						思考：如果(4,5) 这个坐标上有一个黑色的棋子，怎么计算出棋盘上对应位置的x,y值
+						x = 左上角点X + 4 * 棋盘间隔 - 棋子的半径(为了让棋子的中心落在棋盘的交点上 )
+						*/
+                        g.fillOval(X + a * SIZE - SIZE_CHESS / 2, c * SIZE + Y
+                                - SIZE_CHESS / 2, SIZE_CHESS, SIZE_CHESS);
+                    } else {
+                        g.setColor(Color.white);
+                        g.fillOval(a * SIZE + X - SIZE_CHESS / 2, c * SIZE + Y
+                                - SIZE_CHESS / 2, SIZE_CHESS, SIZE_CHESS);
+                    }
     }
 }

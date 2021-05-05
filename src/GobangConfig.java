@@ -5,4 +5,6 @@ public interface GobangConfig {
     public int COL = 15; //行数
     public int SIZE = 30;//间隔大小
     public int SIZE_CHESS = SIZE; //棋子大小
+
+    public int[][] chessArray = new int[ROW][COL]; //数组存放棋子
 }
