@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -6,10 +7,15 @@ import java.awt.event.MouseListener;
 public class GobangListener implements MouseListener,GobangConfig{
     Graphics g ;
     int flag = 1;
+    JFrame frame;
 
     //接收画笔
     public void setGraphics(Graphics g){
         this.g = g;
+    }
+
+    public void setFrame(JFrame frame){
+        this.frame = frame;
     }
 
     //根据鼠标点击位置交替画黑白棋
@@ -28,6 +34,7 @@ public class GobangListener implements MouseListener,GobangConfig{
                 //绘制椭圆时为了让圆心和交点重合，起点坐标需要在左上角
                 g.fillOval(r*SIZE+X-SIZE_CHESS/2, c*SIZE+Y-SIZE_CHESS/2, SIZE_CHESS,SIZE_CHESS);
                 chessArray[r][c] = flag;
+                chessWin(r,c);
                 if(flag == 1){
                     flag = -1;
                     g.setColor(Color.white);
@@ -37,6 +44,68 @@ public class GobangListener implements MouseListener,GobangConfig{
                 }
             }
 
+        }
+
+    }
+
+    public void chessWin(int a,int c) {
+        int x,y;
+        int n1=0,n2=0,n3=0,n4=0; //横、竖、左斜、右斜四个方向
+        if(chessArray[a][c]==1){ //判断黑棋
+            for(x = a,y = c-1;y>0&&chessArray[x][y]==1;y--){
+                n1+=1;
+            }
+            for(x = a,y = c+1;y<15&&chessArray[x][y]==1;y++){
+                n1+=1;
+            }
+            for(x = a-1,y = c;x>0&&chessArray[x][y]==1;x--){
+                n2++;
+            }
+            for(x = a+1,y = c;x<15&&chessArray[x][y]==1;x++){
+                n2++;
+            }
+            for(x = a-1,y = c-1;y>0&&x>0&&chessArray[x][y]==1;y--,x--){
+                n3++;
+            }
+            for(x = a+1,y = c+1;y<15&&x<15&&chessArray[x][y]==1;y++,x++){
+                n3++;
+            }
+            for(x = a+1,y = c-1;x<15&&y>0&&chessArray[x][y]==1;x++,y--){
+                n4++;
+            }
+            for(x = a-1,y = c+1;y<15&&x>0&&chessArray[x][y]==1;x--,y++){
+                n4++;
+            }
+            if(n1==4||n2==4||n3==4||n4==4) //除自身之外有4个即结束
+                JOptionPane.showMessageDialog(frame, "黑棋赢了");
+        }
+        else if(chessArray[a][c]==-1){
+            for(x = a,y = c-1;y>0&&chessArray[x][y]==-1;y--){
+                n1+=1;
+            }
+            for(x = a,y = c+1;y<15&&chessArray[x][y]==-1;y++){
+                n1+=1;
+            }
+            for(x = a-1,y = c;x>0&&chessArray[x][y]==-1;x--){
+                n2++;
+            }
+            for(x = a+1,y = c;x<15&&chessArray[x][y]==-1;x++){
+                n2++;
+            }
+            for(x = a-1,y = c-1;y>0&&x>0&&chessArray[x][y]==-1;y--,x--){
+                n3+=1;
+            }
+            for(x = a+1,y = c+1;y<15&&x<15&&chessArray[x][y]==-1;y++,x++){
+                n3+=1;
+            }
+            for(x = a+1,y = c-1;x<15&&y>0&&chessArray[x][y]==-1;x++,y--){
+                n4++;
+            }
+            for(x = a-1,y = c+1;y<15&&x>0&&chessArray[x][y]==-1;x--,y++){
+                n4++;
+            }
+            if(n1==4||n2==4||n3==4||n4==4)
+                JOptionPane.showMessageDialog(frame, "白棋赢了");
         }
 
     }

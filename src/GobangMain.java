@@ -20,7 +20,7 @@ public class GobangMain extends JFrame implements GobangConfig{
         Graphics g = this.getGraphics();
         GobangListener gl = new GobangListener();
         gl.setGraphics(g); //传递画笔,在GobangListener中需要用画笔进行绘制
-
+        gl.setFrame(this);
         //给窗体绑定鼠标监听处理事件，不绑定则点击无效
         this.addMouseListener(gl);
     }
